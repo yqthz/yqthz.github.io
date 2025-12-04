@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>cs61c 学习笔记 | yqthz's Blog</title><meta name="author" content="yqthz"><meta name="copyright" content="yqthz"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Performance CPU execution time: CPU 执行时间 CPU clock cycle: CPU 时钟周期数 clock rate: 时钟频率 clock cycle time: 时钟周期  CPU execution time &#x3D; CPU clock cycle * clock cycle time &#x3D; CPU clock cycle &#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cs61c 学习笔记">
+<meta property="og:url" content="https://yqthz.github.io/2025/12/04/cs61c/index.html">
+<meta property="og:site_name" content="yqthz&#39;s Blog">
+<meta property="og:description" content="Performance CPU execution time: CPU 执行时间 CPU clock cycle: CPU 时钟周期数 clock rate: 时钟频率 clock cycle time: 时钟周期  CPU execution time &#x3D; CPU clock cycle * clock cycle time &#x3D; CPU clock cycle &#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yqthz.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2025-12-04T12:43:53.351Z">
+<meta property="article:modified_time" content="2025-12-04T13:20:05.693Z">
+<meta property="article:author" content="yqthz">
+<meta property="article:tag" content="cs61c">
+<meta property="article:tag" content="计算机体系结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yqthz.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "cs61c 学习笔记",
+  "url": "https://yqthz.github.io/2025/12/04/cs61c/",
+  "image": "https://yqthz.github.io/img/avatar.jpg",
+  "datePublished": "2025-12-04T12:43:53.351Z",
+  "dateModified": "2025-12-04T13:20:05.693Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yqthz",
+      "url": "https://yqthz.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yqthz.github.io/2025/12/04/cs61c/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3-b2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: yqthz","link":"链接: ","source":"来源: yqthz's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'cs61c 学习笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">yqthz's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">cs61c 学习笔记</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">cs61c 学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-04T12:43:53.351Z" title="发表于 2025-12-04 20:43:53">2025-12-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-04T13:20:05.693Z" title="更新于 2025-12-04 21:20:05">2025-12-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">计算机体系结构</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><h1 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h1><ul>
+<li>CPU execution time: CPU 执行时间</li>
+<li>CPU clock cycle: CPU 时钟周期数</li>
+<li>clock rate: 时钟频率</li>
+<li>clock cycle time: 时钟周期</li>
+</ul>
+<p>CPU execution time &#x3D; CPU clock cycle * clock cycle time &#x3D; CPU clock cycle &#x2F; clock rate</p>
+<h1 id="project-2"><a href="#project-2" class="headerlink" title="project 2"></a>project 2</h1><h2 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h2><p>caller 可以随意使用保存寄存器, s0 - s11, 在caller调用callee后,保存寄存器的值不会改变,对于callee来说,使用保存寄存器前,应先保存保存寄存器的值到内存中,即压栈,在callee返回前,应对保存寄存器中的值进行恢复,即弹栈,因此,保存寄存器为callee保存寄存器</p>
+<p>一个函数可能是caller,也可能是callee,因此,当函数被一个函数调用后且需要调用其他函数时,当他需要使用保存寄存器时,要先将保存寄存器保存到内存中进行压栈,注意,返回地址也需要保存,到他需要返回时,将保存寄存器中的值和返回地址进行恢复</p>
+<p>可以说callee的职责的确保保存寄存器中的值不会改变,所以caller可以随意使用保存寄存器,而对于临时寄存器(t0 - t6)和参数寄存器(a0 - a7),不能保证在函数调用后不会改变,当然,临时寄存器和参数寄存器也可以保存到内存中,并在函数调用结束后进行恢复,因此临时寄存器和参数寄存器为caller保存寄存器</p>
+<h2 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h2><p>分支跳转不会将pc + 4,即跳转之后不会返回</p>
+<h1 id="risc-v"><a href="#risc-v" class="headerlink" title="risc-v"></a>risc-v</h1><h2 id="procedure"><a href="#procedure" class="headerlink" title="procedure"></a>procedure</h2><p>x1为返回地址寄存器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jal x1, main  # 跳转到main函数,并将下一条指令存储在x1寄存器中</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jalr x13, 0(x1)  # 跳转到x1寄存器的地址,并将下一条指令存储在x13寄存器中</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jalr x0, 0(x1)   # 将控制器还给调用者,跳转到x1中,并将下一条指令存储在x0中,将任何东西存储在x0寄存器中没有任何效果</span><br></pre></td></tr></table></figure>
+
+<h2 id="jal-和-jalr的区别"><a href="#jal-和-jalr的区别" class="headerlink" title="jal 和 jalr的区别"></a>jal 和 jalr的区别</h2><p><strong><code>jal</code>指令</strong>：</p>
+<ul>
+<li><strong><code>jal</code></strong> 是”Jump and Link” 的缩写。</li>
+<li><strong><code>jal</code></strong> 用于在无条件跳转的同时，将下一条指令的地址（返回地址）保存到指定的寄存器中。</li>
+<li>典型的用法是在函数调用时，使用 <strong><code>jal</code></strong> 将控制权跳转到目标函数，并将返回地址存储在指定寄存器中，以便在函数结束后返回到调用点。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 调用目标函数</span><br><span class="line">jal ra, target_function</span><br><span class="line"># ...</span><br><span class="line"># target_function 结束后会返回到这里</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>jalr</code>指令</strong>：</p>
+<ul>
+<li><strong><code>jalr</code></strong> 是”Jump and Link Register” 的缩写。</li>
+<li><strong><code>jalr</code></strong> 用于通过寄存器中的地址进行无条件跳转，同时将下一条指令的地址（返回地址）保存到指定的寄存器中。</li>
+<li>典型的用法是通过加载寄存器中的地址来实现间接函数调用。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 通过寄存器 t0 中的地址进行跳转，并将返回地址保存在 ra 中</span><br><span class="line">jalr ra, t0, 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="risc-v-如何构建32位立即数"><a href="#risc-v-如何构建32位立即数" class="headerlink" title="risc-v 如何构建32位立即数"></a>risc-v 如何构建32位立即数</h2><p>U-type指令的立即数有20位,I-type指令的立即数有12位,所以可以通过一条U-type指令和I-type指令来构建</p>
+<p>lui(load upper immediate)将所携带的20位立即数载入目标寄存器的高位,并将低12位置零,然后可以使用标准的立即指令来创建32位常量,如 lui 后面是 addi 指令,则可以构建目标寄存器的低12位</p>
+<ol>
+<li>将lui指令的31到12位加载到寄存器</li>
+<li>低12位清零</li>
+<li>addi加载低12位</li>
+</ol>
+<p>注意:<br>如果加载的立即数第11位为1,会出现addi加负数的情况<br>例如:<br>加载 00010011 11110110  00101111 11111111,即0x13F62FFF<br>高20位: 00010011 11110110 0010, 即0x13F62<br>低12位: 1111 11111111,即0xFFF<br>如果lui不加1:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lui x1, 0x13F62</span><br><span class="line">addi x1, 0xFFF</span><br></pre></td></tr></table></figure>
+
+<p>当进行运算后,我们得到0x13F61FFF,显然结果不正确<br>我们将lui加1后:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lui x1, 0x13F63</span><br><span class="line">addi x1, 0xFFF</span><br></pre></td></tr></table></figure>
+
+<p>结果为,0x13F62FFF</p>
+<p>auipc(add upper immediate to pc),同U-type一样,会将所携带的20位立即数载入目标寄存器的高20位,并将低12位置零,生成32位数,然后与 pc 相加,并放入目标寄存器</p>
+<p>auipc中的20位立即数和jalr中的12位立即数组合,可以执行流程转移到任何32位pc相对地址,而auipc与普通加载后存储指令中的12位立即数偏移量,可以访问任何32位pc相对数据</p>
+<blockquote>
+<p>对于控制流的转移（control-flow transfers）和访问数据，AUIPC 指令支持使用两条指令序列访问基于 PC 的任意偏移量（access arbitrary offsets from the PC）。 AUIPC 和 JALR 里的 12 位立即数的组合，能够转移控制到任意的 32 位 PC 相对地址（ AUIPC 先把 32位立即数的高 20 位，补上低 12 位全 0跟 PC 相加，把结果存到某个寄存器里， JALR 再把这个寄存器和 32 位立即数的低 12 位相加，跳转到相加得到的目标地址。也就是实现了 32 位立即数加上 PC的目标地址），而 AUIPC 加上正常的（regular）取数和存数指令里的 12 位偏移量，能访问任意的 32 位 PC 相对数据地址（AUIPC 先把 32 位立即数的高 20 位，补上低 12 位全 0 跟 PC 相加，把结果存到某个寄存器里， 取数和存数指令再把这个寄存器和 32 位立即数的低 12 位相加，相加的结果为访问数据的目标地址。也就是实现了 32 位立即数加上 PC 的目标地址）。</p>
+<p>获取当前 PC 的值可以通过（使用 <code>AUIPC</code> 指令并）把 U 型立即数置为全 0。尽管一个 <code>JAL+4</code> 指令也能用来获取当前 PC 值，但这可能会导致在很简单的微体系结构里打断流水线（cause pipeline breaks），或是在更复杂的微体系结构里破坏（pollute）BTB 结构</p>
+</blockquote>
+<p>参考:<br><a target="_blank" rel="noopener" href="https://fmrt.gitbooks.io/riscv-spec-v2-cn/content/rv32i/int-comp-instrs.html">整型计算指令 | RISC-V 指令集手册（卷一） (gitbooks.io)</a><br><a target="_blank" rel="noopener" href="https://learn.lianglianglee.com/%E4%B8%93%E6%A0%8F/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E5%AE%9E%E6%88%98%E8%AF%BE/18%20RISC-V%E6%8C%87%E4%BB%A4%E7%B2%BE%E8%AE%B2%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E8%B7%B3%E8%BD%AC%E6%8C%87%E4%BB%A4%E5%AE%9E%E7%8E%B0%E4%B8%8E%E8%B0%83%E8%AF%95.md">18 RISC-V指令精讲（三）：跳转指令实现与调试 (lianglianglee.com)</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/394860078">RISC-V指令集讲解（5）条件和无条件跳转指令 - 知乎 (zhihu.com)</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/402376655">计算机组成原理笔记-算术逻辑单元ALU - 知乎 (zhihu.com)</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yqthz.github.io">yqthz</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yqthz.github.io/2025/12/04/cs61c/">https://yqthz.github.io/2025/12/04/cs61c/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yqthz.github.io" target="_blank">yqthz's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">计算机体系结构</a><a class="post-meta__tags" href="/tags/cs61c/">cs61c</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Performance"><span class="toc-text">Performance</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#project-2"><span class="toc-text">project 2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="toc-text">函数调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%B3%E8%BD%AC"><span class="toc-text">跳转</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#risc-v"><span class="toc-text">risc-v</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#procedure"><span class="toc-text">procedure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jal-%E5%92%8C-jalr%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">jal 和 jalr的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#risc-v-%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA32%E4%BD%8D%E7%AB%8B%E5%8D%B3%E6%95%B0"><span class="toc-text">risc-v 如何构建32位立即数</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By yqthz</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3-b2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3-b2"></script><script src="/js/main.js?v=5.5.3-b2"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
