@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>git 学习笔记 | yqthz's Blog</title><meta name="author" content="yqthz"><meta name="copyright" content="yqthz"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="git 基础工作区：在本地磁盘上看到、正在编辑的文件，Git 不会自动记录这里的修改暂存区：存放的是：下一次 commit 要包含的内容**，**git add 的文件会放入暂存区 本地仓库**：**git commit 后，文件会放入本地仓库 1工作区  -- git add --&gt;  暂存区  -- git commit --&gt;  本地仓库  git 文件状态 Untracked：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git 学习笔记">
+<meta property="og:url" content="https://yqthz.github.io/2025/12/18/git/index.html">
+<meta property="og:site_name" content="yqthz&#39;s Blog">
+<meta property="og:description" content="git 基础工作区：在本地磁盘上看到、正在编辑的文件，Git 不会自动记录这里的修改暂存区：存放的是：下一次 commit 要包含的内容**，**git add 的文件会放入暂存区 本地仓库**：**git commit 后，文件会放入本地仓库 1工作区  -- git add --&gt;  暂存区  -- git commit --&gt;  本地仓库  git 文件状态 Untracked：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yqthz.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2025-12-18T14:32:03.000Z">
+<meta property="article:modified_time" content="2025-12-18T14:34:48.754Z">
+<meta property="article:author" content="yqthz">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yqthz.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "git 学习笔记",
+  "url": "https://yqthz.github.io/2025/12/18/git/",
+  "image": "https://yqthz.github.io/img/avatar.jpg",
+  "datePublished": "2025-12-18T14:32:03.000Z",
+  "dateModified": "2025-12-18T14:34:48.754Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "yqthz",
+      "url": "https://yqthz.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yqthz.github.io/2025/12/18/git/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.3-b2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: yqthz","link":"链接: ","source":"来源: yqthz's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'git 学习笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">yqthz's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">git 学习笔记</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">git 学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-18T14:32:03.000Z" title="发表于 2025-12-18 22:32:03">2025-12-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-18T14:34:48.754Z" title="更新于 2025-12-18 22:34:48">2025-12-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/git/">git</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><h3 id="git-基础"><a href="#git-基础" class="headerlink" title="git 基础"></a>git 基础</h3><p>工作区：在本地磁盘上看到、正在编辑的文件，Git 不会自动记录这里的修改<br>暂存区：存放的是：下一次 commit 要包含的内容**，**git add 的文件会放入暂存区</p>
+<p>本地仓库**：**git commit 后，文件会放入本地仓库</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">工作区  -- git add --&gt;  暂存区  -- git commit --&gt;  本地仓库</span><br></pre></td></tr></table></figure>
+
+<p>git 文件状态</p>
+<p>Untracked：文件存在于工作区，Git 从未记录过它，不在暂存区，也不在仓库中</p>
+<p>Tracked：文件 add 后，属于 Tracked</p>
+<p>Unmodified：文件已被 Git 跟踪，工作区内容 &#x3D;&#x3D; 最近一次 commit</p>
+<p>Modified：文件已被跟踪，工作区内容 ≠ 暂存区</p>
+<p>Staged：文件已放入暂存区</p>
+<h3 id="git-stash"><a href="#git-stash" class="headerlink" title="git stash"></a>git stash</h3><p><code>git stash</code> 是 Git 中的一个命令，用来临时保存当前工作目录和暂存区的修改**（**即未提交的更改），以便可以切换到其他分支或执行其他操作，而不会丢失当前的工作进度。</p>
+<p>在 <code>main</code> 分支上写了一些代码，还没提交，这时需要切到 <code>dev</code> 分支修一个 bug，但当前的修改又不能提交 —— 这时可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br><span class="line">git switch dev  # 或 git checkout dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修完 bug 之后回到原来的分支，并恢复之前的修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git switch main</span><br><span class="line">git stash pop  # 取出最近一次 stash 的内容</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>git stash</code></td>
+<td>将当前修改保存到 stash 栈中，并恢复到干净状态</td>
+</tr>
+<tr>
+<td><code>git stash list</code></td>
+<td>查看所有的 stash 记录</td>
+</tr>
+<tr>
+<td><code>git stash pop</code></td>
+<td>弹出最近的 stash，并应用到当前工作区</td>
+</tr>
+<tr>
+<td><code>git stash apply</code></td>
+<td>应用某个 stash（不会删除 stash 记录）</td>
+</tr>
+<tr>
+<td><code>git stash drop</code></td>
+<td>删除某个 stash</td>
+</tr>
+<tr>
+<td><code>git stash clear</code></td>
+<td>清空所有 stash</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>stash</code> 会保存：工作区和暂存区的修改。</li>
+<li>新增的未被 <code>git add</code> 的文件（即“未跟踪文件”），默认不会被 stash；要连这些一起保存可以加 <code>u</code>：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git stash -u  # 包括 untracked 文件</span><br><span class="line">git stash -a  # 包括 untracked + 忽略文件</span><br></pre></td></tr></table></figure>
+
+<h3 id="squash"><a href="#squash" class="headerlink" title="squash"></a>squash</h3><p>把多个 Git 提交合并成一个提交（commit), 通过 <code>git rebase</code> 等操作实现的。<br>假设想把最近的 3 次提交合并成 1 次提交：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i HEAD~3</span><br></pre></td></tr></table></figure>
+
+<p>这时 Git 会打开编辑器，显示如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pick 123abc First commit</span><br><span class="line">pick 456def Second commit</span><br><span class="line">pick 789ghi Third commit</span><br></pre></td></tr></table></figure>
+
+<p>把后面的改成 <code>squash</code> 或 <code>s</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pick 123abc First commit</span><br><span class="line">squash 456def Second commit</span><br><span class="line">squash 789ghi Third commit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>保存后，Git 会提示编辑新的提交信息（可以合并、重写）</p>
+<p>原来是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">commit 789ghi Third commit</span><br><span class="line">commit 456def Second commit</span><br><span class="line">commit 123abc First commit</span><br></pre></td></tr></table></figure>
+
+<p>现在变成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit abcd999 Combine all three commits</span><br></pre></td></tr></table></figure>
+
+<h3 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h3><p><code>git rebase</code> 就是把当前分支的提交，重新“搬到”另一个分支的最新状态之后。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>原理</th>
+<th>提交历史</th>
+<th>是否创建新 commit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>merge</code></td>
+<td>把两个分支合并在一起</td>
+<td>产生“合并节点”，保留分支历史</td>
+<td>创建一个合并 commit</td>
+</tr>
+<tr>
+<td><code>rebase</code></td>
+<td>把你的提交挪到目标分支之后</td>
+<td>更线性，更干净</td>
+<td>会重写历史（新 hash）</td>
+</tr>
+</tbody></table>
+<p>假设有如下分支结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A---B---C  (main)</span><br><span class="line">         \\</span><br><span class="line">          D---E---F  (feature)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase main</span><br></pre></td></tr></table></figure>
+
+<p>会变成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A---B---C---D&#x27;---E&#x27;---F&#x27;  (feature)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>D E F</code> 的内容没变，但它们的 hash 值变了, 所以是新提交(D’ E’ F’)</p>
+<h3 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h3><p><code>git fetch</code> 是 Git 中的一个命令，用来从远程仓库获取最新的提交记录，但不会自动合并到当前分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>联系远程仓库 <code>origin</code></li>
+<li>下载所有新的分支、标签、提交等</li>
+<li>把它们存储到本地的远程分支，如：<code>origin/main</code>、<code>origin/dev</code></li>
+<li>不会改变当前工作分支（比如 main）</li>
+</ul>
+<p>假设本地在 <code>main</code> 分支上，远程的 <code>origin/main</code> 提前更新了两个提交：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">远程：A---B---C---D  (origin/main)</span><br><span class="line">本地：A---B---C      (main)</span><br></pre></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin</span><br></pre></td></tr></table></figure>
+
+<p>之后的本地 Git 仓库会知道远程有个新提交 <code>D</code>，但当前分支不会自动合并这个提交：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A---B---C  (main)</span><br><span class="line">           \\</span><br><span class="line">            D  (origin/main)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h3><p>实际上是两个操作的组合：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch + git merge</span><br></pre></td></tr></table></figure>
+
+<h3 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h3><p><code>git push</code> 中的 <code>-u</code>（或 <code>--set-upstream</code>）参数的作用是：</p>
+<blockquote>
+<p>将当前本地分支与远程分支绑定（设置默认上游分支），以后可以直接用 git push 或 git pull，不需要每次都指定远程分支。</p>
+</blockquote>
+<p>第一次创建并切换一个新分支：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feature/login</span><br></pre></td></tr></table></figure>
+
+<p>然后把这个分支推到远程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin feature/login</span><br></pre></td></tr></table></figure>
+
+<p>以后只需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push   # 推送当前分支</span><br><span class="line">git pull   # 拉取当前分支</span><br></pre></td></tr></table></figure>
+
+<p>不用每次都写全命令。</p>
+<h3 id="amend"><a href="#amend" class="headerlink" title="amend"></a>amend</h3><p>修改提交信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
+<p>忘了加文件？补上再 amend：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add filename  # 把漏加的文件加入暂存区</span><br><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
+<p>这样不会生成一个新提交，而是把上一次提交修改为包含新的内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;Fix typo&quot;</span><br></pre></td></tr></table></figure>
+
+<p>后来发现还有一个文件漏加了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add forgot.js</span><br><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
+<p>现在 <code>Fix typo</code> 这个提交会变成包含两个文件的提交。</p>
+<p><code>git commit --amend</code> 会 重写提交历史，也就是修改了原来的 commit（commit hash 会改变）</p>
+<h3 id="git-cherry-pick"><a href="#git-cherry-pick" class="headerlink" title="git cherry-pick"></a>git cherry-pick</h3><p>假设在 <code>feature-a</code> 分支修了一个 bug，但现在也希望 <code>main</code> 分支也拥有这个修复，不想合并整个 <code>feature-a</code>，只想拿那一个修复 commit → 用 <code>cherry-pick</code></p>
+<p>在 <code>feature</code> 分支有一个提交 <code>abc123</code><br>切回 <code>main</code> 分支：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git cherry-pick abc123</span><br></pre></td></tr></table></figure>
+
+<p><code>main</code> 分支现在就拥有了 <code>abc123</code> 这个提交（内容一样，但 hash 不一样）</p>
+<p>多个 commit：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick hash1 hash2 hash3</span><br></pre></td></tr></table></figure>
+
+<p><code>cherry-pick</code> 会创建一个 全新的 commit，虽然内容一样，但 hash 会变</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yqthz.github.io">yqthz</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yqthz.github.io/2025/12/18/git/">https://yqthz.github.io/2025/12/18/git/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://yqthz.github.io" target="_blank">yqthz's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/">git</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-%E5%9F%BA%E7%A1%80"><span class="toc-text">git 基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-stash"><span class="toc-text">git stash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#squash"><span class="toc-text">squash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-rebase"><span class="toc-text">git rebase</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-fetch"><span class="toc-text">git fetch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-pull"><span class="toc-text">git pull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-push"><span class="toc-text">git push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#amend"><span class="toc-text">amend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-cherry-pick"><span class="toc-text">git cherry-pick</span></a></li></ol></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By yqthz</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.3-b2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.3-b2"></script><script src="/js/main.js?v=5.5.3-b2"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
